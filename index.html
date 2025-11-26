@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendario de Adviento - Casino Fénix</title>
+  <title>Calendario Fénix</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -521,46 +521,7 @@
       }
     }
 
-    /* Added snowflakes animation */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: #fff;
-      font-size: 1em;
-      pointer-events: none;
-      z-index: 0;
-      user-select: none;
-      animation: snowfall linear infinite;
-      opacity: 0.8;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    }
-
-    @keyframes snowfall {
-      0% {
-        transform: translateY(-10px) translateX(0) rotate(0deg);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(100vh) translateX(50px) rotate(360deg);
-        opacity: 0.3;
-      }
-    }
-
-    .snowflakes-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .snowflakes-container.paused .snowflake {
-      animation-play-state: paused;
-    }
-
-    /* Added Christmas lights positioned between boxes */
+    /* Christmas lights positioned between boxes */
     .christmas-light {
       position: absolute;
       width: 8px;
@@ -683,12 +644,9 @@
     <div class="loading-text">Cargando calendario...</div>
   </div>
 
-  <!-- Added snowflakes container -->
-  <div class="snowflakes-container" id="snowflakesContainer"></div>
-
   <div class="header">
     <img src="assets/logo.png" alt="Casino Fénix" class="logo" id="logo">
-    <h1>Calendario de Adviento</h1>
+    <h1>Calendario Fénix</h1>
     <p class="subtitle">¡Reclama tu premio diario hasta Navidad!</p>
   </div>
 
@@ -791,13 +749,6 @@
               fill="url(#starGradient)" 
               stroke="#ff8c00" 
               stroke-width="2">
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="0 150 26"
-            to="360 150 26"
-            dur="20s"
-            repeatCount="indefinite"/>
         </path>
       </g>
     </svg>
@@ -810,7 +761,6 @@
   </div>
 
   <div class="footer">
-    <p>Casino Fénix - Calendario de Adviento 2024</p>
   </div>
 
   <!-- Modal de premio -->
@@ -829,59 +779,8 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.getElementById('preloader').classList.add('hidden');
-        startSnowfall();
       }, 2100);
     });
-
-    function startSnowfall() {
-      const container = document.getElementById('snowflakesContainer');
-      const snowflakeChars = ['❄', '❅', '❆'];
-      
-      // Create 50 snowflakes
-      for (let i = 0; i < 50; i++) {
-        createSnowflake(container, snowflakeChars);
-      }
-      
-      // Create new snowflakes periodically
-      window.snowfallInterval = setInterval(() => {
-        if (container.children.length < 50) {
-          createSnowflake(container, snowflakeChars);
-        }
-      }, 300);
-    }
-
-    function createSnowflake(container, chars) {
-      const snowflake = document.createElement('div');
-      snowflake.className = 'snowflake';
-      snowflake.textContent = chars[Math.floor(Math.random() * chars.length)];
-      snowflake.style.left = Math.random() * 100 + '%';
-      snowflake.style.fontSize = (Math.random() * 0.5 + 0.5) + 'em';
-      snowflake.style.animationDuration = (Math.random() * 3 + 5) + 's';
-      snowflake.style.animationDelay = Math.random() * 2 + 's';
-      
-      container.appendChild(snowflake);
-      
-      // Remove after animation
-      setTimeout(() => {
-        if (snowflake.parentNode) {
-          snowflake.remove();
-        }
-      }, 8000);
-    }
-
-    function pauseSnowfall() {
-      const container = document.getElementById('snowflakesContainer');
-      container.classList.add('paused');
-      if (window.snowfallInterval) {
-        clearInterval(window.snowfallInterval);
-      }
-    }
-
-    function resumeSnowfall() {
-      const container = document.getElementById('snowflakesContainer');
-      container.classList.remove('paused');
-      startSnowfall();
-    }
 
     function createChristmasLights() {
       const lightsContainer = document.getElementById('christmasLightsContainer');
@@ -1073,8 +972,6 @@
 
     // Modal
     function showModal(day, prize, alreadyClaimed) {
-      pauseSnowfall();
-      
       const modal = document.getElementById('modal');
       const modalDay = document.getElementById('modalDay');
       const modalPrize = document.getElementById('modalPrize');
@@ -1095,7 +992,6 @@
     function closeModal() {
       const modal = document.getElementById('modal');
       modal.classList.remove('active');
-      resumeSnowfall();
     }
 
     document.getElementById('modalClose').addEventListener('click', closeModal);
